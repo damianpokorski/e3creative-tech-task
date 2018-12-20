@@ -1,4 +1,32 @@
-# E3Creative Technical Test
+# About
+So quick rundown of what I have implemented:
+
+- Controller
+- Routes
+- Models
+- Migrations
+- Vue components
+- Bootstrap forms
+- Utilised webpack
+
+I have set up the live version on https://e3creative-tech-test.damianpokorski.com
+
+If you want to set it up locally this should get you going
+```sh
+$ npm install
+$ npm run dev
+$ php artisan migrate
+```
+Screenshot 1:
+![screen1](https://is.gd/pDc8Qp)
+Screenshot 2:
+![screen1](https://is.gd/GurHPB)
+
+Also you need a valid mysql connection set up in your .env
+
+---------------------------------------------------------
+
+# E3Creative Technical Test (brief)
 
 ### Task
 
@@ -22,3 +50,4 @@ Once you have completed the task please push the work to the repository provided
 - https://laracasts.com/series/laravel-from-scratch-2017
 - https://laravel.com/docs/5.5
 - https://appdividend.com/2017/08/20/laravel-5-5-tutorial-example/
+
