@@ -8,7 +8,7 @@ class Fixer extends Controller
 {
     //
     public function index(){
-        echo 'Index';
+        return response()->view('frontend');
     }
 
 
