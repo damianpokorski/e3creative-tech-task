@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 Vue.component('birthday-picker', require('./components/BirthdayPicker.vue').default);
+Vue.component('exchange-viewer', require('./components/ExchangeViewer.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -31,6 +32,25 @@ Vue.component('birthday-picker', require('./components/BirthdayPicker.vue').defa
 
 window.addEventListener('load', function() {
     const app = new Vue({
-        el: '#app'
+        el: '#app',
+        data: {
+            allow_submission: true,
+            api_result: null
+        },
+        methods: {
+            historical: function(day, month) {
+                return fetch(`/api/historical/${day}/${month}`);
+            },
+            birthday_submitted: function(event) {
+                this.allow_submission = false;
+                this.historical(event.day, event.month)
+                    .then((e) => e.json()
+                        .then((f) => {
+                            this.api_result = f;
+                            console.log(f);
+                        })
+                    );
+            }
+        }
     });
 });

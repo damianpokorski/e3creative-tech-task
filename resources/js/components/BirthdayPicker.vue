@@ -3,8 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card card-default">
-                    <div class="card-header">Find out exchange rate on your last birthday</div>
-
+                    <div class="card-header">Find out EUR exchange rate on your last birthday</div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
@@ -46,8 +45,6 @@
                                 <input class="btn btn-block btn-primary" type="submit" value="Submit" @click="submit">
                             </div>
                         </div>
-
-                        
                     </div>
                 </div>
             </div>
@@ -68,7 +65,7 @@
                 this.selectedDay = 1;
             },
             submit: function() {
-                alert('submitting!' + this.selectedMonth.toString() + " / " + this.selectedDay.toString());
+                this.$emit('submit', {day: this.selectedDay, month: this.selectedMonth});
             }
         },
         mounted() {
