@@ -43,7 +43,8 @@ window.addEventListener('load', function() {
         data: {
             allow_submission: true,
             api_result: null,
-            past_submissions_result: null
+            past_submissions_result: null,
+            api_down: false
         },
         methods: {
             enhanced_fetch_json: (url) => new Promise((resolve, reject) => fetch(url)
@@ -53,10 +54,14 @@ window.addEventListener('load', function() {
                 ).catch(reject)
             ),
             historical: function(day, month) {
-                return this.enhanced_fetch_json(`/api/historical/${day}/${month}`).then(result => this.api_result = result);
+                return this.enhanced_fetch_json(`/api/historical/${day}/${month}`)
+                    .then(result => this.api_result = result)
+                    .catch(error => this.api_down = true);
             },
             past_submissions: function() {
-                return this.enhanced_fetch_json(`/api/historical`).then(data => this.past_submissions_result = data);
+                return this.enhanced_fetch_json(`/api/historical`)
+                    .then(data => this.past_submissions_result = data)
+                    .catch(error => this.api_down = true);
             },
             birthday_submitted: function(event) {
                 this.allow_submission = false;
@@ -67,6 +72,10 @@ window.addEventListener('load', function() {
                 this.api_result = null;
                 this.past_submissions_result = null;
                 this.past_submissions();
+            },
+            open: function(date) {
+                this.allow_submission = false;
+                this.historical(date.split('-')[1], date.split('-')[2]);
             }
         },
         mounted: function() {

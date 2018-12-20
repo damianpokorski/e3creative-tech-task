@@ -1992,6 +1992,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -54165,7 +54167,12 @@ var render = function() {
                   {
                     key: entry.endpoint,
                     staticClass: "list-group-item list-group-item-action",
-                    attrs: { href: "#" }
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        _vm.$emit("open", entry.endpoint)
+                      }
+                    }
                   },
                   [
                     _vm._v(
@@ -65505,7 +65512,8 @@ window.addEventListener('load', function () {
     data: {
       allow_submission: true,
       api_result: null,
-      past_submissions_result: null
+      past_submissions_result: null,
+      api_down: false
     },
     methods: {
       enhanced_fetch_json: function enhanced_fetch_json(url) {
@@ -65522,6 +65530,8 @@ window.addEventListener('load', function () {
 
         return this.enhanced_fetch_json("/api/historical/".concat(day, "/").concat(month)).then(function (result) {
           return _this.api_result = result;
+        }).catch(function (error) {
+          return _this.api_down = true;
         });
       },
       past_submissions: function past_submissions() {
@@ -65529,6 +65539,8 @@ window.addEventListener('load', function () {
 
         return this.enhanced_fetch_json("/api/historical").then(function (data) {
           return _this2.past_submissions_result = data;
+        }).catch(function (error) {
+          return _this2.api_down = true;
         });
       },
       birthday_submitted: function birthday_submitted(event) {
@@ -65540,6 +65552,10 @@ window.addEventListener('load', function () {
         this.api_result = null;
         this.past_submissions_result = null;
         this.past_submissions();
+      },
+      open: function open(date) {
+        this.allow_submission = false;
+        this.historical(date.split('-')[1], date.split('-')[2]);
       }
     },
     mounted: function mounted() {

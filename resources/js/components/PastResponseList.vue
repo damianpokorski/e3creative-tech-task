@@ -3,10 +3,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card card-default">
-                    <div class="card-header">Commonly checked birtdays</div>
+                    <div class="card-header">Commonly checked birthdays</div>
                     <div class="card-body">
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action" v-for="entry in api_result" :key="entry.endpoint">
+                            <a href="#" class="list-group-item list-group-item-action" v-for="entry in api_result" :key="entry.endpoint"
+                            @click="$emit('open', entry.endpoint)"
+                            >
                                 {{entry.endpoint | readabledate}}
                                 <span class="badge badge-pill badge-secondary p-1">{{entry.hits}}</span>
                             </a>
