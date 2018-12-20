@@ -16,7 +16,7 @@ class Fixer extends Controller
     public function historical($day, $month){
         $timestamp = strtotime(implode('-', [$day, $month, date('Y')]));
         $date      = date('Y-m-d', $timestamp);
-        //var_dump($date);
-        var_dump(FixerApi::historical($date));
+
+        return response()->json(FixerApi::historical($date));
     }
 }
