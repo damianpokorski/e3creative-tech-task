@@ -23,6 +23,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 Vue.component('birthday-picker', require('./components/BirthdayPicker.vue').default);
 Vue.component('exchange-viewer', require('./components/ExchangeViewer.vue').default);
+Vue.component('past-response-list', require('./components/PastResponseList.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,27 +31,46 @@ Vue.component('exchange-viewer', require('./components/ExchangeViewer.vue').defa
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// Global filter for date formatting
+var moment = require('moment');
+Vue.filter('readabledate', function(date) {
+    return moment(date).format("Do MMMM YYYY");
+});
+
 window.addEventListener('load', function() {
     const app = new Vue({
         el: '#app',
         data: {
             allow_submission: true,
-            api_result: null
+            api_result: null,
+            past_submissions_result: null
         },
         methods: {
+            enhanced_fetch_json: (url) => new Promise((resolve, reject) => fetch(url)
+                .then((request) => request.json()
+                    .then((json) => resolve(json))
+                    .catch(reject)
+                ).catch(reject)
+            ),
             historical: function(day, month) {
-                return fetch(`/api/historical/${day}/${month}`);
+                return this.enhanced_fetch_json(`/api/historical/${day}/${month}`).then(result => this.api_result = result);
+            },
+            past_submissions: function() {
+                return this.enhanced_fetch_json(`/api/historical`).then(data => this.past_submissions_result = data);
             },
             birthday_submitted: function(event) {
                 this.allow_submission = false;
-                this.historical(event.day, event.month)
-                    .then((e) => e.json()
-                        .then((f) => {
-                            this.api_result = f;
-                            console.log(f);
-                        })
-                    );
+                this.historical(event.day, event.month);
+            },
+            restart: function() {
+                this.allow_submission = true;
+                this.api_result = null;
+                this.past_submissions_result = null;
+                this.past_submissions();
             }
+        },
+        mounted: function() {
+            this.past_submissions().then(data => this.past_submissions_result = data);
         }
     });
 });

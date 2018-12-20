@@ -13,3 +13,4 @@
 
 Route::get('/', 'Fixer@index');
 Route::get('/api/historical/{day}/{month}', 'Fixer@historical');
+Route::get('/api/historical', 'Fixer@past_submission_aggregator');

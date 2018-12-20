@@ -15,9 +15,12 @@
             <div class="content" id="content">
 
                 <div id="app" class="py-5">
+
                   <birthday-picker v-if="allow_submission" @submit="birthday_submitted($event)"></birthday-picker>
 
-                  <exchange-viewer :api_result="api_result" v-if="api_result"></exchange-viewer>
+                  <exchange-viewer :api_result="api_result" v-if="api_result" @go_back="restart"></exchange-viewer>
+
+                  <past-response-list :api_result="past_submissions_result" v-if="past_submissions_result"></past-response-list>
                 </div>
 
             </div>

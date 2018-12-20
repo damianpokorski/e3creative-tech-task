@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\FixerApi;
+use App\FixerApiResponses;
 class Fixer extends Controller
 {
     //
@@ -22,5 +23,12 @@ class Fixer extends Controller
         // Note add an edge case for if birthday is in the future -> then substract a year
 
         return response()->json(FixerApi::historical($date));
+    }
+
+    public function past_submission_aggregator() {
+        $responses = FixerApiResponses::orderBy('hits', 'desc')
+            ->get(['endpoint', 'hits'])
+            ->toArray();
+        return response()->json($responses);
     }
 }
