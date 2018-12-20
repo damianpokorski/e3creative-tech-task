@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Fixer@index');
+Route::get('/api/historical/{day}/{month}', 'Fixer@historical');
