@@ -19,6 +19,8 @@ $ php artisan migrate
 ```
 Screenshot 1:
 ![screen1](https://is.gd/pDc8Qp)
+
+
 Screenshot 2:
 ![screen1](https://is.gd/GurHPB)
 
